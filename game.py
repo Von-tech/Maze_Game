@@ -6,6 +6,7 @@ from raycasting import Raycasting
 # Constants
 WIDTH, HEIGHT = 800, 600
 TILE_SIZE = 40  # Size of each tile in pixels
+MINIMAP_SCALE = 0.2  # Scale for minimap size
 
 class Game:
     def __init__(self):
@@ -39,23 +40,24 @@ class Game:
 
     def render(self):
         self.screen.fill((0, 0, 0))
-        self.draw_maze()
         self.raycasting.render(self.screen)  # Render the 3D view
-        self.draw_player()
-    
-    def draw_maze(self):
-        """ Draw the maze in 2D for debugging """
+        self.draw_minimap()
+
+    def draw_minimap(self):
+        """ Draw a scaled-down minimap in the top-left corner. """
+        mini_tile = int(TILE_SIZE * MINIMAP_SCALE)
         maze_data = self.maze.get_maze()
+        
         for row in range(len(maze_data)):
             for col in range(len(maze_data[0])):
-                if maze_data[row][col] == 1:
-                    pygame.draw.rect(self.screen, (255, 255, 255),
-                                     (col * TILE_SIZE, row * TILE_SIZE, TILE_SIZE, TILE_SIZE))
-    
-    def draw_player(self):
-        """ Draw the player on the 2D map """
-        pygame.draw.circle(self.screen, (255, 0, 0),
-                           (int(self.player.x * TILE_SIZE), int(self.player.y * TILE_SIZE)), 5)
+                color = (255, 255, 255) if maze_data[row][col] == 1 else (0, 0, 0)
+                pygame.draw.rect(self.screen, color,
+                                 (col * mini_tile, row * mini_tile, mini_tile, mini_tile))
+        
+        # Draw player on minimap
+        player_x = int(self.player.x * mini_tile)
+        player_y = int(self.player.y * mini_tile)
+        pygame.draw.circle(self.screen, (255, 0, 0), (player_x, player_y), 3)
 
 if __name__ == "__main__":
     game = Game()
