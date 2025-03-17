@@ -1,4 +1,5 @@
 import random
+from player import Player  # Import the Player class
 
 class Maze:
     def __init__(self, width, height):
@@ -6,6 +7,7 @@ class Maze:
         self.height = height
         self.maze = [[1] * width for _ in range(height)]
         self.generate_maze()
+        self.player = Player(1, 1)  # Add a player at the starting position
 
     def generate_maze(self):
         """
