@@ -10,4 +10,5 @@ NUM_RAYS = 120
 DELTA_ANGLE = FOV / NUM_RAYS
 MAX_DEPTH = 20
 TILE_SIZE = 40
+SCALE = WIDTH // NUM_RAYS  # Defines the width of each vertical slice
 
